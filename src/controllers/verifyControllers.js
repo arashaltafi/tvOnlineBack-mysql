@@ -197,7 +197,7 @@ const checkValidation = async (req, res, next) => {
 const sendMessage = async (phone) => {
     const token = Math.floor(1000 + Math.random() * 9000);
     const template = 'mrenglish';
-    const apiUrl = `https://api.kavenegar.com/v1/3333666873757723423469694C324433707145adf33421432414B32576B70716A634D525A593D/verify/lookup.json?receptor=${phone}&token=${token}&template=${template}&type=sms`;
+    const apiUrl = `https://api.kavenegar.com/v1/3333666873757723423469694C32443370714we5adf33421432414B32576B70716A634D525A593D/verify/lookup.json?receptor=${phone}&token=${token}&template=${template}&type=sms`;
     const response = await axios.get(apiUrl);
 
     if (response.status === 200) {
