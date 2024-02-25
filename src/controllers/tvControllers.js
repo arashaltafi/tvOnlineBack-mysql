@@ -84,7 +84,27 @@ const getAllByState = async (req, res, next) => {
 
 const getAllData = async (req, res, next) => {
     try {
-        
+        const [banner] = await mysql.query(`SELECT * FROM banner WHERE isVisible = ${1} ORDER By id ASC`);
+        const [tvsGlobal] = await mysql.query('SELECT * FROM tvs WHERE state = ?', ['TV_GLOBAL']);
+        const [tvsInternational] = await mysql.query('SELECT * FROM tvs WHERE state = ?', ['TV_INTERNATIONAL']);
+        const [tvsExclusive] = await mysql.query('SELECT * FROM tvs WHERE state = ?', ['TV_EXCLUSIVE']);
+        const [tvsRadio] = await mysql.query('SELECT * FROM tvs WHERE state = ?', ['TV_RADIO']);
+        const [tvsSatellite] = await mysql.query('SELECT * FROM tvs WHERE state = ?', ['TV_SATELLITE']);
+        const [tvsProvincial] = await mysql.query('SELECT * FROM tvs WHERE state = ?', ['TV_PROVINCIAL']);
+
+        return res.status(200).send({
+            state: 'ok',
+            message: 'عملیات موفق',
+            data: {
+                'BANNER': banner,
+                'TV_GLOBAL': tvsGlobal,
+                'TV_INTERNATIONAL': tvsInternational,
+                'TV_EXCLUSIVE': tvsExclusive,
+                'TV_RADIO': tvsRadio,
+                'TV_SATELLITE': tvsSatellite,
+                'TV_PROVINCIAL': tvsProvincial,
+            }
+        })
     } catch (error) {
         return res.status(500).send({
             state: 'err',
