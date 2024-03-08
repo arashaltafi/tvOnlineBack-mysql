@@ -4,14 +4,25 @@ const getMyComments = async (req, res, next) => {
     try {
         const token = req.headers.authorization;
 
+        // Query To Get Phone By Token
+        const [phone] = await mysql.query('SELECT phone FROM tbl_subscribers WHERE token = ?', [token]);
+
+        // Check Phone Its For Token
+        if (phone.length !== 1) {
+            return res.status(401).send({
+                state: 'err',
+                message: "کد کاربر صحیح نمی باشد"
+            });
+        }
+
         // Select All Comment By Token
         const [comments] = await mysql.query(`
             SELECT comment.id, comment.rating, comment.comment, tvs.image, tvs.name, tvs.state
             FROM tbl_subscribers
-            INNER JOIN comment ON tbl_subscribers.token = comment.token
+            INNER JOIN comment ON tbl_subscribers.phone = comment.phone
             INNER JOIN tvs ON comment.idVideo = tvs.id
-            WHERE tbl_subscribers.token = ? AND isConfirm = ? ORDER By id ASC
-        `, [token, 1]);
+            WHERE tbl_subscribers.phone = ? AND isConfirm = ? ORDER By id ASC
+        `, [phone[0].phone, 1]);
 
         const commentsData = {
             total: comments.length,
