@@ -46,8 +46,7 @@ const getMyComments = async (req, res, next) => {
     } catch (error) {
         return res.status(500).send({
             state: 'err',
-            message: 'خطا در انجام عملیات',
-            error: error.message
+            message: 'خطا در انجام عملیات'
         });
     }
 }
@@ -110,8 +109,7 @@ const getAllById = async (req, res, next) => {
     } catch (error) {
         return res.status(500).send({
             state: 'err',
-            message: 'خطا در انجام عملیات',
-            error: error.message
+            message: 'خطا در انجام عملیات'
         });
     }
 }
@@ -209,7 +207,7 @@ const sendComment = async (req, res, next) => {
         // INSERT INTO COMMENT
         await mysql.query('INSERT INTO comment SET ?', {
             idVideo: idVideo,
-            token: token,
+            phone: phone,
             rating: rating,
             comment: comment
         })
