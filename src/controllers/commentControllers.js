@@ -207,9 +207,10 @@ const sendComment = async (req, res, next) => {
         // INSERT INTO COMMENT
         await mysql.query('INSERT INTO comment SET ?', {
             idVideo: idVideo,
-            phone: phone,
+            phone: phone[0].phone,
             rating: rating,
-            comment: comment
+            comment: comment,
+            isConfirm: 0
         })
 
         return res.status(200).send({
@@ -220,7 +221,7 @@ const sendComment = async (req, res, next) => {
     } catch (error) {
         return res.status(500).send({
             state: 'err',
-            message: 'خطا در انجام عملیات',
+            message: 'خطا در انجام عملیات'
         });
     }
 }
