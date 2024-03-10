@@ -4,7 +4,6 @@
   "description": "english-teacher server with express and mysql2",
   "main": "index.js",
   "scripts": {
-    "build": "npx tsc -w",
     "start": "nodemon server.js",
     "test": "jest"
   },

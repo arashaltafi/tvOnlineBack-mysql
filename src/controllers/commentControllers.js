@@ -84,7 +84,7 @@ const getAllById = async (req, res, next) => {
         const [comments] = await mysql.query(`
             SELECT tbl_subscribers.name, tbl_subscribers.date, tbl_subscribers.avatar, comment.id, comment.rating, comment.comment
             FROM tbl_subscribers
-            INNER JOIN comment ON tbl_subscribers.token = comment.token
+            INNER JOIN comment ON tbl_subscribers.phone = comment.phone
             WHERE isConfirm = ? AND idVideo = ? ORDER By id ASC
         `, [1, id]);
 
@@ -184,8 +184,19 @@ const sendComment = async (req, res, next) => {
             })
         }
 
+        // Query To Get Phone By Token
+        const [phone] = await mysql.query('SELECT phone FROM tbl_subscribers WHERE token = ?', [token]);
+
+        // Check Phone Its For Token
+        if (phone.length !== 1) {
+            return res.status(401).send({
+                state: 'err',
+                message: "کد کاربر صحیح نمی باشد"
+            });
+        }
+
         // SELECT FROM COMMENT To Check it's Exist Or No
-        const [userComments] = await mysql.query('SELECT token, idVideo FROM comment WHERE token = ? AND idVideo = ?', [token , idVideo])
+        const [userComments] = await mysql.query('SELECT * FROM comment WHERE phone = ? AND idVideo = ?', [phone , idVideo])
 
         // If Comment Exist Return Error
         if (userComments.length > 0) {
