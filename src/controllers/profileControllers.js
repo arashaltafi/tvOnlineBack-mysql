@@ -90,14 +90,13 @@ const sendAvatar = async (req, res, next) => {
         }).catch((error) => {
             return res.status(400).send({
                 state: 'err',
-                message: error
+                message: 'خطا در انجام عملیات'
             })
         }).finally(() => { })
     } catch (error) {
         return res.status(500).send({
             state: 'err',
-            message: 'خطا در انجام عملیات',
-            error: error.message
+            message: 'خطا در انجام عملیات'
         })
     }
 }
